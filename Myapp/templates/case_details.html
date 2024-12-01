@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header"><strong>
+    	{{ case_detail.case_number }}</strong>
+    </div>
+
+    <div class="card-body">
+        <p class="card-text">
+          <strong>العميل: </strong>
+          {{ case_detail.client_FK.client_name }}
+        </p>
+
+        <p class="card-text">
+            <strong>تاريخ القضية: </strong>
+            {{ case_detail.case_date }}
+        </p>
+
+        <p class="card-text">
+            <strong>نوع القضية: </strong>
+            {{ case_detail.case_type }}
+        </p>
+
+        <p class="card-text">
+            <strong>المحكمة: </strong>
+            {{ case_detail.court }}
+        </p>
+
+        <p class="card-text">
+            <strong>الحالة: </strong>
+            {{ case_detail.status }}
+        </p>
+
+        <p class="card-text">
+            <strong>الحكم: </strong>
+            {{ case_detail.results }}
+        </p>
+
+        <p class="card-text">
+            <strong>الملاحاظات: </strong>
+            {{ case_detail.notes }}
+        </p>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'update_case' case_detail.id %}" class="btn btn-primary">تعديل</a>
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{case_detail.id}}">
+                مسح
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{case_detail.id}}" tabindex="-1" aria-labelledby="ModalLabel2" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">
+                                القضية رقم: {{ case_detail.case_number }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>هل أنت متأكد أنك تريد حذف هذه القضية؟</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{% url 'delete_case' case_detail.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="نعم">
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/>
+<a href="{% url 'cases' %}" class="btn btn-secondary">العودة</a>
+
+{% endblock %}

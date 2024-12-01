@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h2>إضافة عميل</h2>
+    {% if success %}
+        <div class="alert alert-success" role="alert">تم إضافة عميل جديد بنجاح
+            <a href="{% url 'clients' %}" class="alert-link">الصفحة السابقة</a>
+        </div>
+    {% else %}
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">
+                        <i class="fa-solid fa-address-card fa-lg"></i> معلومات العميل
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'add_client' %}" method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">حفظ</button>
+                            <a href="{% url 'clients' %}" class="btn btn-secondary">الغاء</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+    <!--
+    <div style="max-width: 100%;
+                height: max-content;
+                margin-top: 10px;
+                padding: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 20px;
+                overflow-x: auto;">
+        
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">الاسم</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+        
+        <div style="display: flex;">
+            <label for="inputPassword" class="col-sm-2 col-form-label">الجنس</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                ذكر
+                </label>
+            </div>
+            <div class="form-check mb-3" style="margin-left: 20px;">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                أنثى
+                </label>
+            </div>
+        </div>
+        
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">البريد الإلكتروني</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">رقم المحمول</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">رقم المحمول ٢</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">العنوان</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">المحافظة</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+
+        <div class="mb-3 row g-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">المدينة</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="#" class="btn btn-danger">إلغاء</a>
+            <a href="#" class="btn btn-success">حفظ</a>
+        </div>
+    </div>
+    
+    <div style="max-width: 100%;
+                height: max-content;
+                margin: 100px;
+                padding: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 20px;
+                overflow-x: auto;">
+        <form class="row g-3">
+            <div class="col-md-4">
+                <label for="validationDefault01" class="form-label">First name</label>
+                <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationDefault02" class="form-label">Middle Name</label>
+                <input type="text" class="form-control" id="validationDefault02" value="Mark" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationDefault03" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="validationDefault03" value="Otto" required>
+            </div>
+            <div class="col-md-3">
+                <label for="flexRadioDefault1" class="form-label">Gender</label>
+                <div style="display: flex;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Male
+                        </label>
+                    </div>
+                    <div class="form-check" style="margin-left: 20px;">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Female
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <label for="validationDefault04" class="form-label">Email address</label>
+                <input type="text" class="form-control" id="validationDefault04" required>
+            </div>
+            <div class="col-md-6">
+                <label for="validationDefault05" class="form-label">Mobile No.</label>
+                <input type="text" class="form-control" id="validationDefault05" required>
+            </div>
+            <div class="col-md-6">
+                <label for="validationDefault06" class="form-label">ALternate No.</label>
+                <input type="text" class="form-control" id="validationDefault06" required>
+            </div>
+            <div class="col-md-6">
+                <label for="validationDefault07" class="form-label">Address</label>
+                <input type="text" class="form-control" id="validationDefault07" required>
+            </div>
+            <div class="col-md-3">
+                <label for="validationDefault08" class="form-label">State</label>
+                <select class="form-select" id="validationDefault08" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="validationDefault09" class="form-label">City</label>
+                <input type="text" class="form-control" id="validationDefault09" required>
+            </div>
+
+            <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-success" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+    <a href="">العودة<a>-->
+    
+    {% else %}
+    {% endif%}
+{% endblock %}

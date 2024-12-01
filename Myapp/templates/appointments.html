@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="jumbotron">
+        <h2>المواعيد</h2>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'add_appointment' %}" class="btn btn-primary">إضافة موعد +</a>
+        </div>
+
+        <section style="max-width: 100%;
+                        height: max-content;
+                        margin: 10px;
+                        padding: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 20px;
+                        overflow-x: auto;">
+
+            <div style="display: flex; justify-content: space-between;">
+                <div class="container-fluid">
+                    <form method="GET" action="{% url 'appointments' %}">
+                        من <input type="date" name="fromdate" value="{{ default_from_date }}"/>
+                        إلى <input type="date" name="todate" value="{{ default_to_date }}"/>
+                        <input style="color: brown; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .5rem;" type="submit" value="Search"/>
+                    </form>
+                </div>
+                <div class="container-fluid">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-5" type="text" placeholder="بحث" id="myInput" onkeyup="appointmentsSearch()" aria-label="Search" style="border-color: burlywood;">
+                    </form>
+                </div>
+                
+            </div>
+
+            {% if appointments %}
+                    <table class="table" id="myTable" style="margin-top: 5px;">
+                        <thead>
+                          <tr>
+                            <th scope="col">م</th>
+                            <th scope="col">العميل</th>
+                            <th scope="col">تاريخ الميعاد</th>
+                            <th scope="col">ملاحظات</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in appointments %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'appointment_details' appointment.id %}" class="button-link">{{appointment.client_FK}}</a></td>
+                                <td>{{appointment.appointment_date}}</td>
+                                <td>{{appointment.notes}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            {% else %}
+            {% endif %}
+            
+        </section>
+    </div>
+        
+    {% else %}
+    {% endif%}
+{% endblock %}

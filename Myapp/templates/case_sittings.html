@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="jumbotron">
+        <h2>الجلسات</h2>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'add_sitting' case_id %}" class="btn btn-primary">إضافة جلسة +</a>
+        </div>
+
+        <section style="max-width: 100%;
+                        height: max-content;
+                        margin: 10px;
+                        padding: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 20px;
+                        overflow-x: auto;">
+
+            <div style="display: flex; justify-content: space-between;">
+                <div class="container-fluid">
+                    <form method="GET" action="">
+                        من <input type="date" name="fromdate" value="{{ default_from_date }}"/>
+                        إلى <input type="date" name="todate" value="{{ default_to_date }}"/>
+                        <input style="color: brown; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .5rem;" type="submit" value="Search"/>
+                    </form>
+                </div>
+                <div class="container-fluid">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-5" type="text" placeholder="بحث" id="myInput" onkeyup="sittingSearch()" aria-label="Search" style="border-color: burlywood;">
+                    </form>
+                </div>
+                
+            </div>
+
+            {% if case_sittings %}
+                    <table class="table" id="myTable" style="margin-top: 5px;">
+                        <thead>
+                          <tr>
+                            <th scope="col">م</th>
+                            <th scope="col">جلسة رقم</th>
+                            <th scope="col">العميل</th>
+                            <th scope="col">قضية رقم</th>
+                            <th scope="col">تاريخ الجلسة</th>
+                            <th scope="col">الملحقات</th>
+                            <th scope="col">ملاحظات</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for sitting in case_sittings %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'sitting_details' sitting.id %}" class="button-link">{{sitting.sitting_number}}</a></td>
+                                <td>{{sitting.case_FK.client_FK.client_name}}</td>
+                                <td>{{sitting.case_FK.case_number}}</td>
+                                <td>{{sitting.sitting_date}}</td>
+                                {% if sitting.attachments %}
+                                    <td><a href="{{sitting.attachments.url}}" class="button-link">{{sitting.attachments.name}}</a></td>
+                                {% else %}
+                                    <td>No attachments</td>
+                                {% endif %}
+                                <td>{{sitting.notes}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            {% else %}
+            {% endif %}
+            
+            <!--<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-top: 5px;">
+                <button type="button" class="btn btn-secondary btn-sm">السابق</button>
+                <button type="button" class="btn btn-secondary btn-sm">التالي</button>
+            </div>-->
+        </section>
+    </div>
+    <!--<a href="">العودة<a>-->
+        
+    {% else %}
+    {% endif%}
+{% endblock %}

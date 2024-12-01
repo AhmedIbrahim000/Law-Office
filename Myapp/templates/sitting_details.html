@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header"><strong>
+    	{{ sitting_detail.sitting_number }}</strong>
+    </div>
+
+    <div class="card-body">
+        <p class="card-text">
+          <strong>العميل: </strong>
+          {{ sitting_detail.case_FK.client_FK.client_name }}
+        </p>
+
+        <p class="card-text">
+            <strong>القضية رقم: </strong>
+            {{ sitting_detail.case_FK.case_number }}
+        </p>
+
+        <p class="card-text">
+            <strong>تاريخ الجلسة: </strong>
+            {{ sitting_detail.sitting_date }}
+        </p>
+
+        <p class="card-text">
+            <strong>الملحقات: </strong>
+            {{ sitting_detail.attachments }}
+        </p>
+
+        <p class="card-text">
+            <strong>الملاحاظات: </strong>
+            {{ sitting_detail.notes }}
+        </p>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'update_sitting' sitting_detail.id %}" class="btn btn-primary">تعديل</a>
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{sitting_detail.id}}">
+                مسح
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{sitting_detail.id}}" tabindex="-1" aria-labelledby="ModalLabel3" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">
+                                الجلسة رقم: {{ sitting_detail.sitting_number }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>هل أنت متأكد أنك تريد حذف هذه الجلسة؟</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{% url 'delete_sitting' sitting_detail.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="نعم">
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/>
+<a href="{% url 'sittings' %}" class="btn btn-secondary">العودة</a>
+
+{% endblock %}

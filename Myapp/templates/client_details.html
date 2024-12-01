@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header"><strong>
+    	{{ client_detail.client_name }}</strong>
+    </div>
+
+    <div class="card-body">
+        <p class="card-text">
+            <strong>الرقم القومي: </strong>
+            {{ client_detail.client_id }}
+        </p>
+
+        <p class="card-text">
+            <strong>الجنس: </strong>
+            {{ client_detail.gender }}
+        </p>
+
+        <p class="card-text">
+            <strong>تاريخ الميلاد: </strong>
+            {{ client_detail.Date_Of_Birth }}
+        </p>
+
+        <p class="card-text">
+            <strong>البريد الإلكتروني: </strong>
+            {{ client_detail.email }}
+        </p>
+
+        <p class="card-text">
+            <strong>رقم المحمول: </strong>
+            {{ client_detail.mobile }}
+        </p>
+
+        <p class="card-text">
+            <strong>العنوان: </strong>
+            {{ client_detail.address }}
+        </p>
+
+        <p class="card-text">
+            <strong>المحافظة: </strong>
+            {{ client_detail.state }}
+        </p>
+
+        <p class="card-text">
+            <strong>المدينة: </strong>
+            {{ client_detail.city }}
+        </p>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'update_client' client_detail.id %}" class="btn btn-primary">تعديل</a>
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{client_detail.id}}">
+                مسح
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{client_detail.id}}" tabindex="-1" aria-labelledby="ModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">
+                                العميل: {{ client_detail.client_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>هل أنت متأكد أنك تريد حذف هذا العميل؟</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{% url 'delete_client' client_detail.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="نعم">
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/>
+<a href="{% url 'clients' %}" class="btn btn-secondary">العودة</a>
+
+{% endblock %}

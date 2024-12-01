@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div  style="width: 100%;">
+        {% if user.is_authenticated %}
+        <!-- Insights -->
+        <!-- <section style="max-width: 100%;
+                        height: 115px;
+                        padding: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 20px;
+                        overflow-x: auto;
+                        display: flex;
+                        justify-content: space-between;">
+            <div class="insight" style="flex: 1;
+                                        padding: 10px;
+                                        border: 1px solid cornflowerblue;
+                                        border-radius: 5px;
+                                        margin-right: 20px;">
+                <h3>0</h3>
+                <p style="font-size: 20px;">إجمالي العملاء</p>
+            </div>
+            <div class="insight" style="flex: 1;
+                                        padding: 10px;
+                                        border: 1px solid cornflowerblue;
+                                        border-radius: 5px;
+                                        margin-right: 20px;">
+                <h3>0</h3>
+                <p style="font-size: 20px;">إجمالي القضايا</p>
+            </div>
+            <div class="insight" style="flex: 1;
+                                        padding: 10px;
+                                        border: 1px solid cornflowerblue;
+                                        border-radius: 5px;
+                                        margin-right: 20px;">
+                <h3>0</h3>
+                <p style="font-size: 20px;">قضايا هامة</p>
+            </div>
+            <div class="insight" style="flex: 1;
+                                        padding: 10px;
+                                        border: 1px solid cornflowerblue;
+                                        border-radius: 5px;">
+                <h3>0</h3>
+                <p style="font-size: 20px;">القضايا المؤرشفة</p>
+            </div>
+        </section> -->
+        <!-- End of Insights -->
+
+
+        <!-- Cases board
+        <section style="max-width: 100%;
+                        max-height: fit-content;
+                        margin: 20px auto;
+                        padding: 10px;
+                        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+                        border-radius: 5px;
+                        display: flex;
+                        justify-content: space-between;">
+            <div class="insight" style="flex: 1;
+                                        padding: 10px;
+                                        margin-right: 20px;">
+                <h2>0</h2>
+                <p style="font-size: 30px;">Total clients</p>
+            </div>
+        </section>
+        End of Cases board-->
+
+
+        <!-- Calendar-->
+        <div class="calendar-container" style="width: 100%; background: var(--light); border-radius: 20px;
+                                            padding: 10px; margin-top: 10px; overflow-x: auto;
+                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <iframe id="calendar" style="border-width:0; width: 100%; height: 500px;" frameborder="0" scrolling="no"
+                    src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Africa%2FCairo&showTitle=0&showNav=1&showTabs=1&showCalendars=1&src=YWhtZWRpYnJhaGltMjI5OEBnbWFpbC5jb20&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=YXIuZWcjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%2333B679&color=%230B8043"></iframe>
+                    <!-- Replace YOUR_CALENDAR_URL_HERE with the actual URL of your Google Calendar -->
+        </div>
+        <!-- End of Calendar-->
+
+
+        {% else %}
+            <h1>تسجيل دخول</h1>
+            <br/>
+            <form method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                <form>
+                    <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">اسم المستخدم</label>
+                    <input type="text" class="form-control" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">كلمة السر</label>
+                    <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                </form>
+            </form>
+        {% endif%}
+    </div>
+{% endblock %}

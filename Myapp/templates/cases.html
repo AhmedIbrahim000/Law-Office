@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="jumbotron">
+        <h2>القضايا</h2>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'add_case' %}" class="btn btn-primary">إضافة قضية +</a>
+        </div>
+
+        <!--<div class="flex mb-3">
+                <label for="date1" class="form-label">من</label>
+                <input type="text" class="form-control" id="date1">
+            </div>
+            <div class="flex mb-3">
+                <label for="date2" class="form-label">إلى</label>
+                <input type="text" class="form-control" id="date2">
+            </div>-->
+        <!--<div style="max-width: 50%;
+                    height: max-content;
+                    margin: 10px;
+                    padding-right: 10px;
+                    padding-left: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    border-radius: 20px;"
+                    class="d-flex justify-content-center">
+            
+            <div class="input-daterange input-group flex" id="datepicker" style="margin: 5px;">
+                <input type="text" class="input-sm form-control" name="start" />
+                <span class="input-group-addon">إلى</span>
+                <input type="text" class="input-sm form-control" name="end" />
+            </div>
+        </div>-->
+
+        <section style="max-width: 100%;
+                        height: max-content;
+                        margin: 10px;
+                        padding: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 20px;
+                        overflow-x: auto;">
+            <div style="display: flex; justify-content: space-between;">
+                <div class="container-fluid">
+                    <form method="GET" action="{% url 'cases' %}">
+                        من <input type="date" name="fromdate" value="{{ default_from_date }}"/>
+                        إلى <input type="date" name="todate" value="{{ default_to_date }}"/>
+                        <input style="color: brown; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .5rem;" type="submit" value="Search"/>
+                    </form>
+                </div>
+                <div class="container-fluid">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-5" type="text" placeholder="بحث" id="myInput" onkeyup="casesSearch()" aria-label="Search" style="border-color: burlywood;">
+                    </form>
+                </div>
+                
+            </div>
+            
+            <div class="card text-center" style="margin-top: 5px;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link filter-btn" href="#" data-column="status">جارية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link filter-btn" href="#" data-column="status">مؤجلة</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link filter-btn" href="#" data-column="status">مؤرشفة</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    {% if cases %}
+                    <table class="table" id="myTable" style="margin-top: 5px;">
+                        <thead>
+                          <tr>
+                            <th scope="col">م</th>
+                            <th scope="col">قضية رقم</th>
+                            <th scope="col">العميل</th>
+                            <th scope="col">تاريخ القضية</th>
+                            <th scope="col">نوع القضية</th>
+                            <th scope="col">المحكمة</th>
+                            <th scope="col">الحالة</th>
+                            <th scope="col">الحكم</th>
+                            <th scope="col">ملاحظات</th>
+                            <th scope="col">الجلسات</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for case in cases %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'case_details' case.id %}" class="button-link">{{case.case_number}}</a></td>
+                                <td>{{case.client_FK.client_name}}</td>
+                                <td>{{case.case_date}}</td>
+                                <td>{{case.case_type}}</td>
+                                <td>{{case.court}}</td>
+                                <td>{{case.status}}</td>
+                                <td>{{case.results}}</td>
+                                <td>{{case.notes}}</td>
+                                <td><a href="{% url 'case_sittings' case.id %}" class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!--<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-top: 5px;">
+                <button type="button" class="btn btn-secondary btn-sm">السابق</button>
+                <button type="button" class="btn btn-secondary btn-sm">التالي</button>
+            </div>-->
+        </section>
+    </div>
+    <!--<a href="">العودة<a>-->
+    {% else %}
+    {% endif%}
+{% endblock %}
